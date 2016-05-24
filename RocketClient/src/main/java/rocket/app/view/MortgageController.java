@@ -1,8 +1,12 @@
 package rocket.app.view;
 
 import eNums.eAction;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import rocket.app.MainApp;
 import rocketCode.Action;
 import rocketData.LoanRequest;
@@ -22,9 +26,27 @@ public class MortgageController {
 	//		Labels   -  various labels for the controls
 	//		Button   -  button to calculate the loan payment
 	//		Label    -  to show error messages (exception throw, payment exception)
+	@FXML
+	private TextField txtIncome;
+	@FXML
+	private TextField txtCreditScore;
+	@FXML
+	private TextField txtTerm;
+	@FXML
+	private TextField txtDownPayment;
+	@FXML
+	private TextField txtExpenses;
+	@FXML
+	private TextField txtHouseCost;
+	@FXML
+	private ComboBox cmbTerm;
+	
+	ObservableList<String> termList = FXCollections.observableArrayList("15", "30");
 
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
+		cmbTerm.setValue("15");
+		cmbTerm.setItems(termList);
 	}
 	
 	
@@ -41,7 +63,13 @@ public class MortgageController {
 		//	TODO - RocketClient.RocketMainController
 		//			set the loan request details...  rate, term, amount, credit score, downpayment
 		//			I've created you an instance of lq...  execute the setters in lq
-
+		
+		lq.setIncome((Double.parseDouble(txtIncome.getText())));
+		lq.setExpenses(Double.parseDouble(txtExpenses.getText()));
+		lq.setiTerm((Integer.parseInt(txtTerm.getText())));
+		lq.setiCreditScore((Integer.parseInt(txtCreditScore.getText())));
+		lq.setiDownPayment((Integer.parseInt(txtDownPayment.getText())));
+		
 		a.setLoanRequest(lq);
 		
 		//	send lq as a message to RocketHub		
@@ -55,6 +83,7 @@ public class MortgageController {
 		//			after it's returned back from the server, the payment (dPayment)
 		//			should be calculated.
 		//			Display dPayment on the form, rounded to two decimal places
+		
 		
 	}
 }
